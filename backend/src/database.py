@@ -1,11 +1,14 @@
 import pyodbc
+import os
 
-CONNECTION_STRING = (
-    "DRIVER={ODBC Driver 17 for SQL Server};"
-    "SERVER=SANIKAMAHAJAN\\SQLEXPRESS;"
-    "DATABASE=SmartDocs;"
-    "Trusted_Connection=yes;"
+CONNECTION_STRING = os.environ.get(
+    "SMARTDOCS_CONNECTION_STRING"
 )
+
+if not CONNECTION_STRING:
+    raise RuntimeError(
+        "SMARTDOCS_CONNECTION_STRING environment variable is not set"
+    )
 
 def get_connection():
     return pyodbc.connect(CONNECTION_STRING)
