@@ -1,0 +1,14 @@
+CREATE DATABASE SmartDocs;
+GO
+
+USE SmartDocs;
+GO
+
+CREATE TABLE QueryHistory (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    QueryText NVARCHAR(MAX) NOT NULL,
+    Answer NVARCHAR(MAX) NOT NULL,
+    DocumentName NVARCHAR(255) NULL,
+    CreatedAt DATETIME2 DEFAULT GETDATE()
+);
+GO
