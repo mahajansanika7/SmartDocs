@@ -1,0 +1,158 @@
+<div class="dashboard">
+
+  <!-- Header -->
+  <header>
+    <h1>SmartDocs</h1>
+
+    <button (click)="logout()">
+      Logout
+    </button>
+  </header>
+
+
+  <!-- Upload Document -->
+  <section>
+
+    <h2>Upload Document</h2>
+
+    <input
+      type="file"
+      accept=".pdf"
+      (change)="onFileSelected($event)"
+    />
+
+    <button
+      (click)="uploadFile()"
+      [disabled]="!selectedFile"
+    >
+      Upload PDF
+    </button>
+
+    @if (uploadMessage) {
+      <p>
+        {{ uploadMessage }}
+      </p>
+    }
+
+  </section>
+
+
+  <!-- Ask Question -->
+  <section>
+
+    <h2>Ask a Question</h2>
+
+    <label for="document">
+      Select Document
+    </label>
+
+    <select
+      id="document"
+      [(ngModel)]="selectedDocument"
+    >
+        <option value="">
+          Select a document
+        </option>
+
+      @for (document of documents; track document) {
+        <option [value]="document">
+          {{ document }}
+        </option>
+      }
+
+    </select>
+
+
+    <textarea
+      [(ngModel)]="query"
+      placeholder="Ask something about the document..."
+    ></textarea>
+
+
+    <button
+      (click)="askQuestion()"
+      [disabled]="loading || !selectedDocument"
+    >
+
+      @if (loading) {
+        Thinking...
+      } @else {
+        Ask Question
+      }
+
+    </button>
+
+  </section>
+
+
+  <!-- Answer -->
+  @if (answer) {
+
+    <section>
+
+      <h2>Answer</h2>
+
+      <div class="answer">
+        {{ answer }}
+      </div>
+
+
+      @if (sources.length > 0) {
+
+        <h3>Sources</h3>
+
+        @for (source of sources; track source.document + source.page) {
+
+          <div>
+            {{ source.document }}
+            — Page {{ source.page }}
+          </div>
+
+        }
+
+      }
+
+    </section>
+
+  }
+
+
+  <!-- Query History -->
+  <section>
+
+    <h2>Query History</h2>
+
+    @if (history.length === 0) {
+
+      <p>No query history available.</p>
+
+    } @else {
+
+      @for (item of history; track item.created_at) {
+
+        <div>
+
+          <hr>
+
+          <strong>
+            {{ item.query }}
+          </strong>
+
+          <p>
+            {{ item.answer }}
+          </p>
+
+          <small>
+            {{ item.document }} |
+            {{ item.created_at }}
+          </small>
+
+        </div>
+
+      }
+
+    }
+
+  </section>
+
+</div>

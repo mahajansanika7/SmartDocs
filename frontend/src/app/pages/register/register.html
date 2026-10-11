@@ -1,0 +1,45 @@
+<div class="auth-container">
+  <h1>SmartDocs</h1>
+  <h2>Create Account</h2>
+
+  <form (ngSubmit)="register()">
+
+    <input
+      type="text"
+      name="username"
+      [(ngModel)]="username"
+      placeholder="Username"
+      required
+    />
+
+    <input
+      type="password"
+      name="password"
+      [(ngModel)]="password"
+      placeholder="Password"
+      required
+    />
+
+    <button type="submit">
+      Register
+    </button>
+
+  </form>
+
+  @if (message) {
+    <p class="success-message">
+      {{ message }}
+    </p>
+  }
+
+  @if (error) {
+    <p class="error-message">
+      {{ error }}
+    </p>
+  }
+
+  <p>
+    Already have an account?
+    <a routerLink="/login">Login</a>
+  </p>
+</div>
