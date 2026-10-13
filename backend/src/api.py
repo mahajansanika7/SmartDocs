@@ -1,7 +1,9 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI, UploadFile, File, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
-from common import ingest_pdf
 from config import DOCUMENTS_DIR
 from database import save_data, create_user, get_user, get_query_history
 from auth import encrypt_password, decrypt_password, create_access_token

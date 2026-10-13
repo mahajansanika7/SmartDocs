@@ -1,11 +1,14 @@
 import pyodbc
+import os
 
-CONNECTION_STRING = (
-    "DRIVER={ODBC Driver 17 for SQL Server};"
-    "SERVER=SANIKAMAHAJAN\\SQLEXPRESS;"
-    "DATABASE=SmartDocs;"
-    "Trusted_Connection=yes;"
+CONNECTION_STRING = os.environ.get(
+    "SMARTDOCS_CONNECTION_STRING"
 )
+
+if not CONNECTION_STRING:
+    raise RuntimeError(
+        "SMARTDOCS_CONNECTION_STRING environment variable is not set"
+    )
 
 def get_connection():
     return pyodbc.connect(CONNECTION_STRING)
@@ -16,10 +19,10 @@ def save_data(query, answer, document, user_id):
     
     cursor.execute(
         """
-        insert into QueryHistory (QueryText, Answer, DocumentName, userId)
-        values (?,?,?,?)
+        insert into QueryHistory (QueryText, Answer, DocumentName)
+        values (?,?,?)
         """,
-        (query, answer, document, user_id)
+        (query, answer, document)
     )
     
     cursor.commit()
@@ -76,7 +79,7 @@ def get_query_history(user_id):
         """
         select queryText, Answer, DocumentName , createdat
         from QueryHistory
-        where userId=?
+        where Id=?
         order by createdAt desc
         """,
         (user_id,)

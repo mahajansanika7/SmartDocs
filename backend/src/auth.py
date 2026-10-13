@@ -1,8 +1,9 @@
 from passlib.context import CryptContext
 from jose import jwt
 from datetime import datetime, timedelta 
+import os
 
-SECRET_KEY="Change-later"
+SECRET_KEY=os.environ["JWT_SECRET_KEY"]
 ALGORITHM="HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 

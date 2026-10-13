@@ -23,7 +23,6 @@ def get_cached_answer(query: str, document: str):
         n_results=1,
         include=["documents", "metadatas", "distances"],
     )
-    collection.close()
     documents = result.get("documents", [[]])[0]
     metadatas = result.get("metadatas", [[]])[0]
     distances = result.get("distances", [[]])[0]
@@ -59,7 +58,6 @@ def save_cached_answer(query: str, answer: str, document: str):
         embeddings=[embedding],
         metadatas=[{"query": query}],
     )
-    collection.close()
 
 def main():
     print("SmartDocs - Cached RAG")
